@@ -3,11 +3,56 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RummeltSoftware.GELF", "src\RummeltSoftware.GELF\RummeltSoftware.GELF.csproj", "{01DAB1A7-3DA5-458F-A9AD-303D96804D0B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DA351053-7A1E-4418-9F65-F415B20B5254}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{7F7FE512-E7BE-4413-9E74-8013B1E0F5CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleServer", "examples\SampleServer\SampleServer.csproj", "{00FCF103-FF8B-4114-93AB-5E1818DF61F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleClient", "examples\SampleClient\SampleClient.csproj", "{8F2F0E4D-2CE6-42ED-9354-3C4A37154379}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RummeltSoftware.GELF.Tests", "test\RummeltSoftware.GELF.Tests\RummeltSoftware.GELF.Tests.csproj", "{461B721E-FFF4-4BC3-A006-E7E71BFF778D}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01DAB1A7-3DA5-458F-A9AD-303D96804D0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01DAB1A7-3DA5-458F-A9AD-303D96804D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01DAB1A7-3DA5-458F-A9AD-303D96804D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01DAB1A7-3DA5-458F-A9AD-303D96804D0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00FCF103-FF8B-4114-93AB-5E1818DF61F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00FCF103-FF8B-4114-93AB-5E1818DF61F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00FCF103-FF8B-4114-93AB-5E1818DF61F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00FCF103-FF8B-4114-93AB-5E1818DF61F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F2F0E4D-2CE6-42ED-9354-3C4A37154379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F2F0E4D-2CE6-42ED-9354-3C4A37154379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F2F0E4D-2CE6-42ED-9354-3C4A37154379}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F2F0E4D-2CE6-42ED-9354-3C4A37154379}.Release|Any CPU.Build.0 = Release|Any CPU
+		{461B721E-FFF4-4BC3-A006-E7E71BFF778D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{461B721E-FFF4-4BC3-A006-E7E71BFF778D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{461B721E-FFF4-4BC3-A006-E7E71BFF778D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{461B721E-FFF4-4BC3-A006-E7E71BFF778D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{00FCF103-FF8B-4114-93AB-5E1818DF61F2} = {7F7FE512-E7BE-4413-9E74-8013B1E0F5CF}
+		{8F2F0E4D-2CE6-42ED-9354-3C4A37154379} = {7F7FE512-E7BE-4413-9E74-8013B1E0F5CF}
+		{461B721E-FFF4-4BC3-A006-E7E71BFF778D} = {DA351053-7A1E-4418-9F65-F415B20B5254}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {55378379-C714-4BA3-BCF2-8B95D1E75FB8}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

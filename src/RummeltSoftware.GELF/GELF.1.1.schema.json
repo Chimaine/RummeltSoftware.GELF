@@ -1,0 +1,41 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "GELF",
+  "description":
+    "JSON Schema for GELF (Graylog Extended Log Format), version 1.1. See http://docs.graylog.org/en/2.4/pages/gelf.html#gelf-payload-specification",
+
+  "type": "object",
+
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^1\\.1$"
+    },
+    "host": {
+      "type": "string"
+    },
+    "short_message": {
+      "type": "string"
+    },
+    "full_message": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
+    },
+    "level": {
+      "type": "number"
+    }
+  },
+
+  "patternProperties": {
+    "^_[\\w\\.\\-]+$": {
+      "type": ["string", "number"],
+      "description": "Additional field"
+    }
+  },
+
+  "additionalProperties": false,
+
+  "required": ["version", "host", "short_message"]
+}

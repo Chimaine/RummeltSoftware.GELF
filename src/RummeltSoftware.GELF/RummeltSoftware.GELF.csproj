@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <Title>RummeltSoftware.GELF</Title>
+    <Description>GELF Client and Listener</Description>
+    <Authors>Tobias Rummelt</Authors>
+    <Company></Company>
+    <AssemblyName>RummeltSoftware.GELF</AssemblyName>
+    <RootNamespace>RummeltSoftware.Gelf</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <UseFullSemVerForNuGet>true</UseFullSemVerForNuGet>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+    <NoWarn>1701;1702;1705;NU5105</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' ">
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="GELF.1.1.schema.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitVersionTask" Version="4.0.0-beta0013" PrivateAssets="All" />
+    <PackageReference Include="JetBrains.Annotations" Version="11.1.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="1.2.2" />
+    <PackageReference Include="System.Buffers" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="1.2.2" />
+    <PackageReference Include="System.Buffers" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="GELF.1.1.schema.json" />
+  </ItemGroup>
+
+</Project>
