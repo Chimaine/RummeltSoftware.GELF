@@ -1,0 +1,12 @@
+﻿image: Visual Studio 2017
+configuration: Release
+
+install:
+  - choco install gitversion.portable -pre -y
+
+before_build:
+  - nuget restore
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+
+build:
+  project: RummeltSoftware.GELF.sln
