@@ -6,7 +6,10 @@ install:
 
 before_build:
   - nuget restore
-  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+  - ps: gitversion /l console /output buildserver
 
 build:
   project: RummeltSoftware.GELF.sln
+
+artifacts:
+  - path: '**\*.nupkg'
