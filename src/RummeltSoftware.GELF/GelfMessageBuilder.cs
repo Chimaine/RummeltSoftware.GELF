@@ -7,6 +7,10 @@ namespace RummeltSoftware.Gelf {
     public sealed class GelfMessageBuilder {
         public static readonly string Version = "1.1";
 
+        public static int InitialAdditionalFieldDictionaryCapacity { get; set; } = 1;
+
+        // ========================================
+
         private string _host;
         private string _shortMessage;
 
@@ -136,13 +140,17 @@ namespace RummeltSoftware.Gelf {
         }
 
 
-        public GelfMessage Build() {
+        public GelfMessage Build(bool copyAdditionalFields = false) {
             if (_host == null)
                 throw new InvalidOperationException("Host must be set");
             if (_shortMessage == null)
                 throw new InvalidOperationException("ShortMessage must be set");
 
-            return new GelfMessage(Version, _host, _shortMessage, _fullMessage, _timestamp, _level, _additionalFields);
+            var additionalFields = copyAdditionalFields 
+                ? new Dictionary<string, object>(_additionalFields) 
+                : _additionalFields;
+
+            return new GelfMessage(Version, _host, _shortMessage, _fullMessage, _timestamp, _level, additionalFields);
         }
 
 
@@ -151,7 +159,7 @@ namespace RummeltSoftware.Gelf {
 
         private void EnsureAdditionalFieldsDictionary() {
             if (_additionalFields == null) {
-                _additionalFields = new Dictionary<string, object>();
+                _additionalFields = new Dictionary<string, object>(InitialAdditionalFieldDictionaryCapacity);
             }
         }
     }
