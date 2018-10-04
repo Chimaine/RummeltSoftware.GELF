@@ -55,23 +55,28 @@ namespace RummeltSoftware.Gelf {
             Assert.AreEqual(SeverityLevel.Critical, message.Level);
             Assert.AreEqual(timestamp, message.Timestamp);
 
-            Assert.ThrowsException<ArgumentException>(() => new GelfMessageBuilder().Timestamp(new DateTime(1,1,1,0,0,0, DateTimeKind.Local)));
+            Assert.ThrowsException<ArgumentException>(() => new GelfMessageBuilder().Timestamp(new DateTime(1, 1, 1, 0, 0, 0, DateTimeKind.Local)));
         }
 
 
         [TestMethod]
         public void TestAdditionalFields() {
-
             Assert.ThrowsException<ArgumentException>(() => new GelfMessageBuilder().AdditionalField(null, null));
             Assert.ThrowsException<ArgumentException>(() => new GelfMessageBuilder().AdditionalField("", null));
             Assert.ThrowsException<ArgumentException>(() => new GelfMessageBuilder().AdditionalField("noUnderscore", null));
             Assert.ThrowsException<ArgumentException>(() => new GelfMessageBuilder().AdditionalField("_white space", null));
-            Assert.ThrowsException<ArgumentNullException>(() => new GelfMessageBuilder().AdditionalField("_nullvalue", null));
+            Assert.ThrowsException<ArgumentException>(() => new GelfMessageBuilder().AdditionalField("_white space", null));
+            Assert.ThrowsException<ArgumentNullException>(() => new GelfMessageBuilder().AdditionalField("_nullvalue", (object) null));
+            Assert.ThrowsException<ArgumentNullException>(() => new GelfMessageBuilder().AdditionalField("_nullvalue", (string) null));
 
             var builder = new GelfMessageBuilder("TheHost", "With a message")
                           .AdditionalField("_a_string", "An additional field string")
                           .AdditionalField("_Test_double", 1337.42)
-                          .AdditionalField("_And_an_int", 42);
+                          .AdditionalField("_And_an_int", 42)
+                          .AdditionalField("_object_string", (object) "A string as an object")
+                          .AdditionalField("_object_int", (object) 24)
+                          .AdditionalField("_object_double", (object) 42.1337)
+                          .AdditionalField("_object", new object());
 
             var message = builder.Build();
 
@@ -79,15 +84,22 @@ namespace RummeltSoftware.Gelf {
             Assert.IsTrue(message.AdditionalFields.ContainsKey("_a_string"));
             Assert.IsTrue(message.AdditionalFields.ContainsKey("_Test_double"));
             Assert.IsTrue(message.AdditionalFields.ContainsKey("_And_an_int"));
+            Assert.IsTrue(message.AdditionalFields.ContainsKey("_object_string"));
+            Assert.IsTrue(message.AdditionalFields.ContainsKey("_object_int"));
+            Assert.IsTrue(message.AdditionalFields.ContainsKey("_object_double"));
 
             Assert.AreEqual("An additional field string", message.AdditionalFields["_a_string"]);
             Assert.AreEqual(1337.42, message.AdditionalFields["_Test_double"]);
             Assert.AreEqual(42, message.AdditionalFields["_And_an_int"]);
+            Assert.AreEqual("A string as an object", message.AdditionalFields["_object_string"]);
+            Assert.AreEqual(24, message.AdditionalFields["_object_int"]);
+            Assert.AreEqual(42.1337, message.AdditionalFields["_object_double"]);
+            Assert.IsInstanceOfType(message.AdditionalFields["_object"], typeof(string));
         }
 
+
         [TestMethod]
-        public void TestAsDictionary()
-        {
+        public void TestAsDictionary() {
             var timestamp = DateTime.UtcNow;
 
             var builder = new GelfMessageBuilder("TheHost", "With a message")
@@ -109,6 +121,34 @@ namespace RummeltSoftware.Gelf {
             Assert.AreEqual("An additional field string", dict["_a_string"]);
             Assert.AreEqual(1337.42, dict["_Test_double"]);
             Assert.AreEqual(42, dict["_And_an_int"]);
+        }
+
+
+        [TestMethod]
+        public void TestFromMessage() {
+            var timestamp = DateTime.UtcNow;
+
+            var builder1 = new GelfMessageBuilder("TheHost", "With a message")
+                           .FullMessage(null)
+                           .Level(SeverityLevel.Critical)
+                           .Timestamp(timestamp)
+                           .AdditionalField("_a_string", "An additional field string")
+                           .AdditionalField("_Test_double", 1337.42)
+                           .AdditionalField("_And_an_int", 42);
+
+            var msg1 = builder1.Build();
+            var builder2 = GelfMessageBuilder.FromMessage(msg1);
+            var msg2 = builder2.Build();
+
+            Assert.AreEqual(msg1.Version, msg2.Version);
+            Assert.AreEqual(msg1.Host, msg2.Host);
+            Assert.AreEqual(msg1.ShortMessage, msg2.ShortMessage);
+            Assert.AreEqual(msg1.FullMessage, msg2.FullMessage);
+            Assert.AreEqual(msg1.Level, msg2.Level);
+            Assert.AreEqual(msg1.Timestamp, msg2.Timestamp);
+            Assert.AreEqual(msg1.AdditionalFields["_a_string"], msg2.AdditionalFields["_a_string"]);
+            Assert.AreEqual(msg1.AdditionalFields["_Test_double"], msg2.AdditionalFields["_Test_double"]);
+            Assert.AreEqual(msg1.AdditionalFields["_And_an_int"], msg2.AdditionalFields["_And_an_int"]);
         }
     }
 }

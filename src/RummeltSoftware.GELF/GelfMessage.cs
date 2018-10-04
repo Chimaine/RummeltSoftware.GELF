@@ -23,7 +23,7 @@ namespace RummeltSoftware.Gelf {
 
 
         internal GelfMessage(string version, string host, string shortMessage, string fullMessage, DateTime? timestamp, SeverityLevel? level,
-                             Dictionary<string, object> additionalFields) {
+                             IReadOnlyDictionary<string, object> additionalFields) {
             Version = version;
             Host = host;
             ShortMessage = shortMessage;
@@ -31,6 +31,24 @@ namespace RummeltSoftware.Gelf {
             Timestamp = timestamp;
             Level = level;
             AdditionalFields = additionalFields;
+        }
+
+
+        // ========================================
+
+
+        /// <summary>
+        /// Returns a copy of this message that can be changed by an action on a <see cref="GelfMessageBuilder"/>.
+        /// </summary>
+        /// <param name="with">An action on a <see cref="GelfMessageBuilder"/> that can make changes before the copy is returned.</param>
+        /// <returns>A copy of this message with the changes in the given action applied.</returns>
+        public GelfMessage With([NotNull] Action<GelfMessageBuilder> with) {
+            if (with == null)
+                throw new ArgumentNullException(nameof(with));
+
+            var builder = GelfMessageBuilder.FromMessage(this);
+            with(builder);
+            return builder.Build();
         }
 
 
@@ -58,6 +76,19 @@ namespace RummeltSoftware.Gelf {
             }
 
             return result;
+        }
+
+
+        // ========================================
+
+
+        internal GelfMessage Clone() {
+            var additionalFields = new Dictionary<string, object>(AdditionalFields.Count);
+            foreach (var pair in AdditionalFields) {
+                additionalFields.Add(pair.Key, pair.Value);
+            }
+
+            return new GelfMessage(Version, Host, ShortMessage, FullMessage, Timestamp, Level, additionalFields);
         }
     }
 }
